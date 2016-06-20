@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout android:id="@+id/news_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<LinearLayout-->
+            <!--android:theme="@style/AppTheme.AppBarOverlay"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<com.taiihc.monkey_daily.widgets.CycleView-->
+                    <!--android:id="@+id/news_cycle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="200dip"/>-->
+            <!--</LinearLayout>-->
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/news_rec"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"/>-->
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
+    <android.support.v7.widget.RecyclerView
+
+     android:id="@+id/news_rec"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"/>
+</android.support.v4.widget.SwipeRefreshLayout>

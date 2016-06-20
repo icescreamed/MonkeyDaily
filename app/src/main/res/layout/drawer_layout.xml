@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_width="match_parent"
+    android:layout_height="180dip"
+    skin:enable="true"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorPrimaryDark"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:gravity="bottom">
+   <ImageView
+       android:layout_marginBottom="20dip"
+       android:layout_centerVertical="true"
+       android:layout_centerInParent="true"
+       android:src="@drawable/md_icon"
+       android:scaleType="centerCrop"
+       android:layout_width="90dip"
+       android:layout_height="90dip" />
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="all">
+        <item
+            android:icon="@drawable/img_home"
+            android:id="@+id/drawer_main"
+            android:title="@string/drawer_home"/>
+        <item
+            android:icon="@drawable/img_collet"
+            android:id="@+id/drawer_collection"
+            android:title="@string/drawer_collection"/>
+        <item
+            android:icon="@drawable/img_theme"
+            android:id="@+id/drawer_theme"
+            android:title="@string/drawer_theme"/>
+    </group>
+</menu>

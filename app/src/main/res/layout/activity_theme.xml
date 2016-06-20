@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        skin:enable="true"
+        android:id="@+id/theme_toolbar"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:title="我的主题"
+        android:layout_height="?attr/actionBarSize"/>
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/theme_rec"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"/>
+</LinearLayout>

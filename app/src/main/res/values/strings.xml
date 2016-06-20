@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">猿日常</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_home">首页</string>
+    <string name="drawer_collection">我的收藏</string>
+    <string name="drawer_theme">我的主题</string>
+    <string name="theme_button_name">使用</string>
+    <string name="collection_title">我的收藏</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        skin:enable="true"
+        android:fitsSystemWindows="true"
+        android:title="@string/collection_title"
+        android:titleTextColor="@color/white"
+        android:id="@+id/collection_toolbar"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/collection_rec"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>
+</LinearLayout>

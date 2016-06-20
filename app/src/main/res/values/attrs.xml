@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ExRecycleView">
+        <attr name="maxdragdistance" format="integer"/>
+        <attr name="loadenable" format="boolean"/>
+    </declare-styleable>
+</resources>

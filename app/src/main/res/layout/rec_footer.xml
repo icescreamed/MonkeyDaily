@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="120dip"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.taiihc.monkey_daily.widgets.LoadingView
+        android:layout_centerInParent="true"
+        android:id="@+id/foot_loadingview"
+        android:layout_width="50dip"
+        android:layout_height="50dip"/>
+    <!--<com.taiihc.monkey_daily.widgets.CircleImageView-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:id="@+id/foot_loadingview"-->
+        <!--android:layout_width="50dip"-->
+        <!--android:layout_height="50dip" />-->
+</RelativeLayout>
