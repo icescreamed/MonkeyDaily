@@ -14,6 +14,7 @@ public interface WelfareContract {
     interface View extends BaseView<Presenter>{
         void setRecAdapterData(List<String> urls);
         void setProcesseEnd(Boolean end);
+        void refreshProgress(boolean begin);
         void downLoadFinish(Boolean sucessed);
     }
 }

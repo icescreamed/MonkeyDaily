@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -58,7 +59,6 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
             @Override
             public void onRefresh() {
                 mPresenter.start();
-                refreshLayout.setRefreshing(false);
             }
         });
         mAdapter.setOnImageClickListener(new WelfareRecAdapter.OnImageClickListener() {
@@ -81,10 +81,19 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
     private void openBigImgView(final String imgurl){
          View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_layout,null);
          ImageView magnifyingImg =(ImageView)view.findViewById(R.id.dialog_img);
+         final Button save = (Button)view.findViewById(R.id.dialog_save);
          imageLoader.displayImage(imgurl,magnifyingImg,options);
-         final Dialog dialog = new Dialog(getContext(),R.style.Dialog_Fullscreen);
+
+        final Dialog dialog = new Dialog(getContext(),R.style.Dialog_Fullscreen);
 
          dialog.setContentView(view);
+         save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.downLoadImage(imgurl);
+                save.setVisibility(View.GONE);
+            }
+         });
          magnifyingImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +103,7 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
          magnifyingImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mPresenter.downLoadImage(imgurl);
+                save.setVisibility(View.VISIBLE);
                 return true;
             }
          });
@@ -120,6 +129,7 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
 
     }
 
+
     private WelfareContract.Presenter checkPresenternull(WelfareContract.Presenter presenter){
         if(null == presenter){
             return null;
@@ -143,6 +153,11 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
     public void setProcesseEnd(Boolean end) {
 
         welfare_rec.setLoadingComplete();
+    }
+
+    @Override
+    public void refreshProgress(boolean begin) {
+      refreshLayout.setRefreshing(begin);
     }
 
     @Override

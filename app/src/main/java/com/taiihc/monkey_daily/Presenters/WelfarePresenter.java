@@ -27,6 +27,7 @@ public class WelfarePresenter implements WelfareContract.Presenter {
 
     @Override
     public void start() {
+        mView.refreshProgress(true);
         httpService.getWelfarelist(new Subscriber<List<WelfareBean.WelfareEntry>>() {
                 @Override
                 public void onCompleted() {
@@ -44,6 +45,7 @@ public class WelfarePresenter implements WelfareContract.Presenter {
                         urls.add(entry.getUrl());
                     }
                     mView.setRecAdapterData(urls);
+                    mView.refreshProgress(false);
                 }
             },defualCount,defualPage);
 
