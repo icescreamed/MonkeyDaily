@@ -1,5 +1,6 @@
 package com.taiihc.monkey_daily.view;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,7 +8,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.taiihc.monkey_daily.Adapter.WelfareRecAdapter;
 import com.taiihc.monkey_daily.Contracts.WelfareContract;
 import com.taiihc.monkey_daily.R;
@@ -28,6 +33,9 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
     public ExRecycleView welfare_rec;
     @BindView(R.id.welfare_reflash)
     public SwipeRefreshLayout refreshLayout;
+    private ImageLoader imageLoader;
+    private DisplayImageOptions options;
+
 
     @Nullable
     @Override
@@ -35,8 +43,6 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
         View view = inflater.inflate(R.layout.welfare_layout,container,false);
         ButterKnife.bind(this,view);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
-       // final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-       // layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         welfare_rec.setItemViewCacheSize(3);
         welfare_rec.setLayoutManager(layoutManager);
         mAdapter = new WelfareRecAdapter(getContext(),new ArrayList<String>());
@@ -51,10 +57,48 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mPresenter.start();
                 refreshLayout.setRefreshing(false);
             }
         });
+        mAdapter.setOnImageClickListener(new WelfareRecAdapter.OnImageClickListener() {
+            @Override
+            public void onClick(String imgurl) {
+                openBigImgView(imgurl);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        imageLoader = ImageLoader.getInstance();
+        options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheInMemory(true).build();
+    }
+
+    private void openBigImgView(final String imgurl){
+         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_layout,null);
+         ImageView magnifyingImg =(ImageView)view.findViewById(R.id.dialog_img);
+         imageLoader.displayImage(imgurl,magnifyingImg,options);
+         final Dialog dialog = new Dialog(getContext(),R.style.Dialog_Fullscreen);
+
+         dialog.setContentView(view);
+         magnifyingImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+         magnifyingImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mPresenter.downLoadImage(imgurl);
+                return true;
+            }
+         });
+        dialog.show();
     }
 
 
@@ -99,5 +143,14 @@ public class WelfareFragment extends BaseFragment implements WelfareContract.Vie
     public void setProcesseEnd(Boolean end) {
 
         welfare_rec.setLoadingComplete();
+    }
+
+    @Override
+    public void downLoadFinish(Boolean sucessed) {
+        if(sucessed){
+            Toast.makeText(getContext(),"download sucessed",Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(getContext(),"网络好像有点问题",Toast.LENGTH_LONG).show();
+        }
     }
 }

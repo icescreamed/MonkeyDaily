@@ -9,11 +9,11 @@ import java.util.List;
 public interface WelfareContract {
 
     interface Presenter extends BasePresenter{
-
+       void downLoadImage(String url);
     }
     interface View extends BaseView<Presenter>{
         void setRecAdapterData(List<String> urls);
         void setProcesseEnd(Boolean end);
-
+        void downLoadFinish(Boolean sucessed);
     }
 }

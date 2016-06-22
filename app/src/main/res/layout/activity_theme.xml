@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
         skin:enable="true"
+        android:fitsSystemWindows="true"
         android:id="@+id/theme_toolbar"
         android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"

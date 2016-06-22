@@ -22,7 +22,6 @@ public class WelfarePresenter implements WelfareContract.Presenter {
         urls = new ArrayList<>();
         httpService = HttpService.getHttpService();
         view.setPresenter(this);
-
     }
 
 
@@ -51,6 +50,8 @@ public class WelfarePresenter implements WelfareContract.Presenter {
 
 
     }
+
+
 
 
     @Override
@@ -83,4 +84,24 @@ public class WelfarePresenter implements WelfareContract.Presenter {
 
     @Override
     public void reflashData() {}
+
+    @Override
+    public void downLoadImage(String url) {
+        httpService.downLoadImage(url, new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                 mView.downLoadFinish(aBoolean);
+            }
+        });
+    }
 }

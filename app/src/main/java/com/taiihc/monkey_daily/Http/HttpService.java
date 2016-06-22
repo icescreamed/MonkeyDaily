@@ -1,14 +1,18 @@
 package com.taiihc.monkey_daily.Http;
 
+import android.os.Environment;
 import android.util.Log;
 
-import com.android.volley.RequestQueue;
 import com.taiihc.monkey_daily.Beans.BeforeBean;
 import com.taiihc.monkey_daily.Beans.NewBean;
 import com.taiihc.monkey_daily.Beans.NewContent;
 import com.taiihc.monkey_daily.Beans.WelfareBean;
 import com.taiihc.monkey_daily.Constants.Apis;
+import com.taiihc.monkey_daily.Utils.FileUtils;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +21,7 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -30,10 +35,11 @@ public class HttpService {
     private static volatile HttpService singleHttpService;
     private Retrofit gankhRetrofit;
     private Retrofit zhihuRectrofit;
+    private Retrofit downLoadRectrofit;
     private NewsService newsService;
     private WelfareService welfareService;
     private ContentSevice contentSevice;
-    private RequestQueue requestQueue;
+    private DownLoadService downLoadService;
     private HttpService(){
         gankhRetrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -45,10 +51,6 @@ public class HttpService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Apis.Urls.ZhuHuBaseUrl)
                 .build();
-
-
-
-
     }
 
     public static HttpService getHttpService(){
@@ -62,7 +64,47 @@ public class HttpService {
         }
         return  singleHttpService;
     }
+    public void downLoadImage(String url,Subscriber<Boolean> subscriber){
+           String img = url.substring(url.lastIndexOf("/")+1);
+           String base = url.substring(0,url.lastIndexOf("/")+1);
+           Log.e("downlaodimg base",base);
+           Log.e("downloading img",img);
+           downLoadRectrofit = new Retrofit.Builder()
+                   .baseUrl(base)
+                   .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                   .build();
 
+
+            downLoadService = downLoadRectrofit.create(DownLoadService.class);
+
+        downLoadService.downLoadImage(img)
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<ResponseBody, Boolean>() {
+
+                    @Override
+                    public Boolean call(ResponseBody responseBody) {
+                        return saveImage(responseBody);
+                    }
+                }).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
+    }
+
+    private Boolean saveImage(ResponseBody body){
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd-HHmmss");
+        String time = df.format(new Date());
+        String filename = path+File.separator+time+".jpg";
+        Boolean success = false;
+        try {
+            File file = FileUtils.writeFile(body.byteStream(),filename,true);
+            success = FileUtils.fileExists(file.getAbsolutePath());
+            return success;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
+    }
 
 
 
@@ -103,7 +145,7 @@ public class HttpService {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-        Log.e("HttpService","getLatestList");
+
     }
 
 

@@ -21,6 +21,7 @@ public class WelfareRecAdapter  extends RecyclerView.Adapter<WelfareRecAdapter.M
     private List<String> urls;
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
+    private OnImageClickListener listener;
     public WelfareRecAdapter(Context context, List<String> urls){
         this.context = context;
         this.urls = urls;
@@ -34,9 +35,16 @@ public class WelfareRecAdapter  extends RecyclerView.Adapter<WelfareRecAdapter.M
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         imageLoader.displayImage(urls.get(position),holder.imageView,options);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.onClick(urls.get(position));
+                }
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -50,6 +58,14 @@ public class WelfareRecAdapter  extends RecyclerView.Adapter<WelfareRecAdapter.M
             super(itemView);
             imageView = ButterKnife.findById(itemView,R.id.rec_item_img);
         }
+    }
+
+    public interface OnImageClickListener{
+        void onClick(String imgurl);
+    }
+
+    public void setOnImageClickListener(OnImageClickListener listener){
+        this.listener = listener;
     }
 
     public void setUrls(List<String> urls) {
